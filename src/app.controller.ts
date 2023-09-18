@@ -6,30 +6,24 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { AppService } from './app.service';
 import { User } from './users/users.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
-import { AuthenticatedGuard } from './auth/authenticated.guard';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  async login(@Request() req, @Body() user: User): Promise<any> {
-    return this.appService.login(user);
+  async login(@Request() req): Promise<any> {
+    // TODO: return JWT access token
+    return this.authService.login(req.user);
   }
 
-  // This checks for session authentication.
-  // @UseGuards(AuthenticatedGuard)
-  // @Get('/profile')
-  // getProfile(@Request() req): any {
-  //   return req.user;
-  // }
+  @Get('/profile')
+  getProfile(@Request() req): any {
+    // TODO: Require Bearer Token and Validate Token
+    return req.user;
+  }
 }
