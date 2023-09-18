@@ -26,9 +26,10 @@ export class AppController {
     return this.appService.login(user);
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @Get('/profile')
-  getProfile(@Request() req): any {
-    return req.user;
-  }
+  // This checks for session authentication.
+  // @UseGuards(AuthenticatedGuard)
+  // @Get('/profile')
+  // getProfile(@Request() req): any {
+  //   return req.user;
+  // }
 }
